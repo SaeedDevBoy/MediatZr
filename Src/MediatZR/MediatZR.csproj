@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageId>MediatZR</PackageId>
+		<Version>1.0.0</Version>
+		<Authors>Saeed Zarei</Authors>
+		<Company>ZR Team</Company>
+		<Description>A lightweight CQRS and Mediator library with pipeline behavior support.</Description>
+		<PackageTags>CQRS Mediator Pipeline Behavior .NET</PackageTags>
+		<RepositoryUrl>https://github.com/SaeedDevBoy/MediatZR.git</RepositoryUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageIcon>Logo.png</PackageIcon>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.8" />
+		<None Include="Logo.png" Pack="true" PackagePath="" />
+		<None Include="..\..\README.md" Pack="true" PackagePath="" />
+	</ItemGroup>
+
+</Project>
