@@ -2,6 +2,10 @@
 
 # MediatZR
 
+[![NuGet Version](https://img.shields.io/nuget/v/MediatZR.svg?style=for-the-badge&logo=nuget)](https://www.nuget.org/packages/MediatZR/)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/MediatZR.svg?style=for-the-badge&color=blue)](https://www.nuget.org/packages/MediatZR/)
+
+
 MediatZR is a lightweight **CQRS and Mediator** library for .NET, built with simplicity and flexibility in mind.  
 It allows you to organize your application logic using **Commands, Queries, and Handlers**, with support for **Pipeline Behaviors** (logging, validation, etc.).
 
@@ -23,16 +27,16 @@ Or via the NuGet Package Manager in Visual Studio:
 
 ```
 ## 📦 Getting Started
--1. Define a Request (Command or Query)
+1. Define a Request (Command or Query)
 
 ```csharp
-using CQRSLibrary.Abstractions;
+using MediatZR.Abstractions;
 
 public record UserCommand(string Name) : IRequest<bool>;
 ```
--2. Implement a Handler
+2. Implement a Handler
 ```csharp
-using CQRSLibrary.Abstractions;
+using MediatZR.Abstractions;
 
 public class UserCommandHandler : IRequestHandler<UserCommand, bool>
 {
@@ -44,23 +48,23 @@ public class UserCommandHandler : IRequestHandler<UserCommand, bool>
 }
 
 ```
--3 Register your mediator library in your webapi project:
+3. Register your mediator library in your webapi project:
 ```csharp
 builder.Services.AddScoped<Mediator>();
 ```
-- if your CQRS implementations was only in web api you can easily register it like this:
+- If your CQRS implementations are only inside the Web API project:
 ```csharp
 builder.Services.AddCqrsHandlers(typeof(Program).Assembly);
 ``` 
-- if your CQRS implementations was in more than one class library like WebApi and Application Layer and ... you can easily register only one class like handler query and others that inherited from IRequest or IRequestHandler like this:
+- If you have multiple class libraries (e.g., Application Layer + Web API):
 ```csharp
 builder.Services.AddCqrsHandlers(typeof(Program).Assembly, typeof(UserCommandHandler).Assembly);
 ```
--4 Use Mediator in Your Code
+4. Use Mediator in Your Code
 For example in your webapi you can use like this:
 ```csharp
 // UserController.cs
-using CQRSLibrary.Mediator;
+using MediatZR.Mediator;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
@@ -82,15 +86,16 @@ public class UserController : ControllerBase
     }
 }
 ```
--4. Implement a Pipeline Behavior (Logging) : 
-- if you want to have for example logging or doing something regular befor and after handle of yor CQRs you can use like this :
-- first regiater your pipeline behavoiur in program.cs :
+## ⚡ Pipeline Behavior
+
+Pipeline Behaviors let you run logic **before and after** a request handler executes (e.g., logging, validation, performance tracking).
+
+Example: Logging Behavior 
+
+- First, create your Behavior like below :
+
 ```csharp
-builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
-```
-- second use code like this :
-```csharp
-‍‍‍‍‍public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
 {
     public async Task<TResponse> Handle(
@@ -105,14 +110,20 @@ builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavi
     }
 }
 ```
+- Second, Register your behaviour in your serveces in program.cs :
+```csharp
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
+```
 
 ## License
 
 This project is licensed under the [MIT License](./LICENSE).
 
 
-## Author
+## Author  
 
-- [Saeed Zarei Github](https://www.github.com/octokatherine)
-- [Saeed Zarei Linkedin](https://www.linkedin.com/in/saeed-zarei-a2a7b5a1/)
+[![GitHub](https://img.shields.io/badge/-GitHub-181717?style=flat&logo=github&logoColor=white)](https://github.com/SaeedDevBoy)
+[![LinkedIn](https://img.shields.io/badge/-LinkedIn-0A66C2?style=flat&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/saeed-zarei-a2a7b5a1/)
+
+
 
